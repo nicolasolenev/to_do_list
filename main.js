@@ -22,7 +22,6 @@ function showList() {
     'In Progress': '-',
     'Done': '-',
   }
-  const result = '';
   for (let key in listByStatus) {
     let counter = 0;
     console.log(`${key}:`);
