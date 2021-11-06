@@ -4,16 +4,19 @@ const list = {
   "write a post": "To Do",
 }
 
-const changeStatus = function (task, status) {
+function changeStatus(task, status) {
   return list[task] = status;
 }
-const addTask = function (task) {
+
+function addTask(task) {
   return list[task] = 'To Do';
 }
-const deleteTask = function (task) {
+
+function deleteTask(task) {
   return delete list[task];
 }
-const showList = function () {
+
+function showList() {
   const listByStatus = {
     'To Do': '-',
     'In Progress': '-',
