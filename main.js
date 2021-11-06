@@ -26,7 +26,7 @@ function showList() {
     let counter = 0;
     console.log(`${key}:`);
     for (let task in list) {
-      if (key === list[task]) {
+      if (list[task] === key) {
         counter++;
         console.log(` "${task}"`);
       }
@@ -42,4 +42,7 @@ addTask('have a walk')
 addTask('have a rest')
 deleteTask('write a post')
 deleteTask('make a bed')
+changeStatus("have a walk", "Done")
+changeStatus("create a task", "Done")
+changeStatus("have a rest", "In Progress")
 showList();
