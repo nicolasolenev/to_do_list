@@ -4,15 +4,22 @@ const list = {
   "write a post": "To Do",
 }
 
-const changeStatus = (task, status) => list[task] = status;
-const addTask = task => list[task] = 'To Do';
-const deleteTask = task => delete list[task];
-const showList = () => {
+const changeStatus = function (task, status) {
+  return list[task] = status;
+}
+const addTask = function (task) {
+  return list[task] = 'To Do';
+}
+const deleteTask = function (task) {
+  return delete list[task];
+}
+const showList = function () {
   const listByStatus = {
     'To Do': '-',
     'In Progress': '-',
     'Done': '-',
   }
+  const result = '';
   for (let key in listByStatus) {
     let counter = 0;
     console.log(`${key}:`);
