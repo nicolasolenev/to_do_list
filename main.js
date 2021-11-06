@@ -30,5 +30,7 @@ const showList = () => {
 
 changeStatus("write a post", "Done")
 addTask('have a walk')
+addTask('have a rest')
 deleteTask('write a post')
+deleteTask('make a bed')
 showList();
