@@ -4,66 +4,31 @@ const list = {
   "write a post": "To Do",
 }
 
-// console.log(list);
-
-// Функция changeStatus - будет менять статус задачи
 const changeStatus = (task, status) => list[task] = status;
-changeStatus("write a post", "Done")
-
-
-// Функция addTask - добавляет новую задачу
 const addTask = task => list[task] = 'To Do';
-addTask('have a walk')
-addTask('make a coffee')
-addTask('take a break')
-
-changeStatus("have a walk", "Done")
-
-// Функция deleteTask - удаляет задачу
 const deleteTask = task => delete list[task];
-deleteTask('make a coffee')
-
-
-
-// Функция showList будет выводить весь список дел в виде
-// Todo:
-// "create a task",
-//   "make a bed",
-//   In Progress:
-// "write a post"
-// Done:
-// -
 const showList = () => {
-  console.log('Todo:');
-  let counter = 0;
-  for (let key in list) {
-    if (list[key] === 'To Do') {
-      counter++;
-      console.log(` "${key}"`);
+  const listByStatus = {
+    'To Do': '-',
+    'In Progress': '-',
+    'Done': '-',
+  }
+  for (let key in listByStatus) {
+    let counter = 0;
+    console.log(`${key}:`);
+    for (let task in list) {
+      if (key === list[task]) {
+        counter++;
+        console.log(` "${task}"`);
+      }
+    }
+    if (!counter) {
+      console.log(`-`);
     }
   }
-  if (!counter) console.log('-');
-
-  console.log('In Progress:');
-  counter = 0;
-  for (let key in list) {
-    if (list[key] === 'In Progress') {
-      counter++;
-      console.log(` "${key}"`);
-    }
-  }
-  if (!counter) console.log('-');
-
-  console.log('Done:');
-  counter = 0;
-  for (let key in list) {
-    if (list[key] === 'Done') {
-      counter++;
-      console.log(` "${key}"`);
-    }
-  }
-  if (!counter) console.log('-');
 }
-showList();
 
-//   Создайте список дел, добавьте в него пару задач, поменяйте их статусы несколько раз и выведете результат в консоль
+changeStatus("write a post", "Done")
+addTask('have a walk')
+deleteTask('write a post')
+showList();
