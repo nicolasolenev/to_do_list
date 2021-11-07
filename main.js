@@ -1,15 +1,15 @@
 const list = {
   "create a task": "In Progress",
   "make a bed": "Done",
-  "write a post": "To Do",
-}
+  "write a post": "To Do"
+};
 
 function changeStatus(task, status) {
-  return list[task] = status;
+  return (list[task] = status);
 }
 
 function addTask(task) {
-  return list[task] = 'To Do';
+  return (list[task] = "To Do");
 }
 
 function deleteTask(task) {
@@ -18,15 +18,15 @@ function deleteTask(task) {
 
 function showList() {
   const listByStatus = {
-    'To Do': '-',
-    'In Progress': '-',
-    'Done': '-',
-  }
-  for (let key in listByStatus) {
+    "To Do": "-",
+    "In Progress": "-",
+    Done: "-"
+  };
+  for (let status in listByStatus) {
     let counter = 0;
-    console.log(`${key}:`);
+    console.log(`${status}:`);
     for (let task in list) {
-      if (list[task] === key) {
+      if (list[task] === status) {
         counter++;
         console.log(` "${task}"`);
       }
@@ -37,12 +37,12 @@ function showList() {
   }
 }
 
-changeStatus("write a post", "Done")
-addTask('have a walk')
-addTask('have a rest')
-deleteTask('write a post')
-deleteTask('make a bed')
-changeStatus("have a walk", "Done")
-changeStatus("create a task", "Done")
-changeStatus("have a rest", "In Progress")
+changeStatus("write a post", "Done");
+addTask("have a walk");
+addTask("have a rest");
+deleteTask("write a post");
+deleteTask("make a bed");
+changeStatus("have a walk", "Done");
+changeStatus("create a task", "Done");
+changeStatus("have a rest", "In Progress");
 showList();
