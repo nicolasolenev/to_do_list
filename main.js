@@ -5,15 +5,15 @@ const list = {
 };
 
 function changeStatus(task, status) {
-  return (list[task] = status);
+  list[task] = status;
 }
 
 function addTask(task) {
-  return (list[task] = "To Do");
+  list[task] = "To Do";
 }
 
 function deleteTask(task) {
-  return delete list[task];
+  delete list[task];
 }
 
 function showList() {
