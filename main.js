@@ -17,33 +17,24 @@ function deleteTask(task) {
 }
 
 function showList() {
-  let toDoListOnly = "";
-  let inProgressListOnly = "";
-  let doneListOnly = "";
-  let result = "";
-
-  for (let task in list) {
-    switch (list[task]) {
-      case "To Do":
-        toDoListOnly += ` "${task}"\n`;
-        break;
-      case "In Progress":
-        inProgressListOnly += ` "${task}"\n`;
-        break;
-      case "Done":
-        doneListOnly += ` "${task}"\n`;
-        break;
+  const listByStatus = {
+    "To Do": "-",
+    "In Progress": "-",
+    Done: "-"
+  };
+  for (let status in listByStatus) {
+    let counter = 0;
+    console.log(`${status}:`);
+    for (let task in list) {
+      if (list[task] === status) {
+        counter++;
+        console.log(` "${task}"`);
+      }
+    }
+    if (!counter) {
+      console.log(`-`);
     }
   }
-  result += `To Do:\n`;
-  result += toDoListOnly ? toDoListOnly : `-\n`;
-  result += `In Progress:\n`;
-  result += inProgressListOnly ? inProgressListOnly : `-\n`;
-  result += `Done:\n`;
-  result += doneListOnly ? doneListOnly : `-\n`;
-  result = result.trim();
-
-  console.log(result);
 }
 
 changeStatus("write a post", "Done");
