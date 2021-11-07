@@ -17,12 +17,12 @@ function deleteTask(task) {
 }
 
 function showList() {
-  const listByStatus = {
-    "To Do": "-",
-    "In Progress": "-",
-    Done: "-"
+  const listOfStatus = {
+    "To Do": "",
+    "In Progress": "",
+    Done: ""
   };
-  for (let status in listByStatus) {
+  for (let status in listOfStatus) {
     let counter = 0;
     console.log(`${status}:`);
     for (let task in list) {
@@ -39,10 +39,13 @@ function showList() {
 
 changeStatus("write a post", "Done");
 addTask("have a walk");
+addTask("watch the live broadcast");
 addTask("have a rest");
 deleteTask("write a post");
 deleteTask("make a bed");
 changeStatus("have a walk", "Done");
 changeStatus("create a task", "Done");
 changeStatus("have a rest", "In Progress");
+changeStatus("have a rest", "Done");
+changeStatus("watch the live broadcast", "In Progress");
 showList();
