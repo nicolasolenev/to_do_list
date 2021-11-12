@@ -28,75 +28,12 @@ function deleteTask(task) {
   const TaskInListID = list.findIndex(item => item.name === task);
   if (TaskInListID !== -1) {
     list.splice(TaskInListID, 1);
-  } else console.log('Задачи нет в списке');
+  } else console.log('Такой задачи нет в списке');
 }
-
-function showList() {
-  const listOfStatuses = ['To Do', 'In Progress', 'Done'];
-  listOfStatuses.forEach((element) => {
-    let counter = 0;
-    console.log(`${element}:`);
-    list.filter(function (item) {
-      if (item.status === element) {
-        counter++;
-        console.log(' ' + item.name);
-      }
-    });
-    if (!counter) {
-      console.log(`-`);
-    }
-  });
-}
-
-const list = [
-  {
-    id: 1,
-    name: 'create a post',
-    status: 'To Do',
-    priority: 'low',
-  },
-  {
-    id: 2,
-    name: 'test',
-    status: 'Done',
-    priority: 'high',
-  }
-]
-
-// changeStatus("write a post", "Done");
-// addTask("have a walk");
-// addTask("watch the live broadcast");
-// addTask("have a rest");
-// deleteTask("write a post");
-// deleteTask("make a bed");
-// changeStatus("have a walk", "Done");
-// changeStatus("create a task", "Done");
-// changeStatus("have a rest", "In Progress");
-// changeStatus("have a rest", "Done");
-// changeStatus("watch the live broadcast", "In Progress");
-// showList();
-
-// Новые тесты для массива
-
-// addTask('have a walk');
-// addTask('have dinner', 'medium');
-// addTask('take a rest', 'high');
-// changeStatus('have a walk', 'Done');
-// changeStatus('have dinner', 'Done');
-// showList();
-
-// Сделайте возможность выбирать группировку для вывода.Например
-// showBy(‘priority’) - чтобы выводил по приоритетам
-// high:
-// test
-// somethin else
-// low:
-// -
-//   чтобы можно было вызывать showBy(‘priority’) или showBy(‘status’)
 
 function showBy(param) {
   const STATUSES = ['To Do', 'In Progress', 'Done'];
-  const PRIORITIES = ['low', 'medium', 'high'];
+  const PRIORITIES = ['high', 'medium', 'low'];
   let selectedParam = STATUSES;
 
   if (param === 'priority') {
@@ -107,18 +44,54 @@ function showBy(param) {
     console.log(`${element}:`);
     list.filter(function (item) {
       if (item[param] === element) {
-        counter++;
-        console.log(' ' + item.name);
+        if (!(param === 'priority' && item.status === 'Done')) {
+          counter++;
+          console.log(' ' + item.name);
+        }
       }
     });
     if (!counter) {
       console.log(`-`);
     }
   });
-
-
 }
 
+const list = [
+]
+
+// Ставим задачи
+addTask('навестить бабушку', 'high');
+addTask('постирать одежду', 'medium');
+addTask('посмотреть "Веном 2"', 'low');
+addTask('проверить почту', 'low');
+addTask('покормить кота', 'high');
+addTask('сходить на прогулку', 'medium');
+addTask('погладить кота', 'high');
+// Смотрим задачи по приоритету
+// showBy('priority');
+// Берем задачу в работу
+changeStatus('навестить бабушку', 'In Progress');
+// Выполнили, меняем статус
+changeStatus('навестить бабушку', 'Done');
+
+// a few moments later
+changeStatus('покормить кота', 'Done');
+changeStatus('сходить на прогулку', 'Done');
+
+// Смотрим, что по задачам
+// showBy('status');
+
+// Кота погладил кто-то другой, нужно удалить задачу
+deleteTask('погладить кота');
+
+
+
+// Выводы списков в консоль
+console.log('---------------------');
+console.log('Sort by status:\n');
 showBy('status');
-console.log('------------------------');
-showList();
+console.log('\n---------------------\n');
+console.log('Sort by priority:        (исключены выполненные задачи)\n');
+showBy('priority');
+console.log('---------------------');
+// console.log(list);
