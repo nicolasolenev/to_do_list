@@ -8,7 +8,7 @@ const list = [
     id: 1,
     name: 'test task #1',
     status: 'To Do',
-    priority: 'high',
+    priority: 'low',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const list = [
     id: 3,
     name: 'test task #3',
     status: 'Done',
-    priority: 'low',
+    priority: 'high',
   },
 ];
 
@@ -104,21 +104,19 @@ function showBy(param = 'status') {
     selectedParam = PRIORITIES;
   }
 
-  selectedParam.forEach((paramName) => {
-    let counter = 0;
-    console.log(`${paramName}:`);
-    list.filter(function (task) {
-      if (task[param] === paramName) {
-        if (!(param === 'priority' && task.status === 'Done' && !displayCompletedTasksSortedByPriority)) {
-          counter++;
-          console.log(' ' + task.name);
-        }
-      }
-    });
-    if (!counter) {
-      console.log(`-`);
-    }
+  const sortedList = {};
+  selectedParam.forEach(paramName => {
+    const arrOfTasksByParam = list.filter(task => {
+      if (!(param === 'priority' && task.status === 'Done' && !displayCompletedTasksSortedByPriority))
+        return task[param] === paramName;
+    }).map(task => '"' + task.name + '"');
+    sortedList[paramName] = arrOfTasksByParam;
+    if (sortedList[paramName][0] === undefined) sortedList[paramName][0] = '-';
   });
+
+  for (let key in sortedList) {
+    console.log(`${key}:\n ${sortedList[key].join(',\n ')}`);
+  }
 }
 
 
@@ -139,5 +137,3 @@ function showBy(param = 'status') {
 // console.log(`Sort by priority:  --displaying completed tasks: ${displayCompletedTasksSortedByPriority}\n`);
 // showBy('priority');
 // console.log('---------------------');
-
-// console.log(list);
