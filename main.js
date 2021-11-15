@@ -1,6 +1,5 @@
 const list = [];
 const STATUSES = ['To Do', 'In Progress', 'Done'];
-const PRIORITIES = ['high', 'medium', 'low'];
 let ID = 1;
 function getTaskIndex(name) {
   return list.findIndex((task) => task.name === name);
