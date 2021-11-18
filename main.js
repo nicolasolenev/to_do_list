@@ -1,13 +1,6 @@
 const list = [];
 const STATUSES = ['To Do', 'In Progress', 'Done'];
 let ID = 1;
-function getTaskIndex(name) {
-  return list.findIndex(task => task.name === name);
-}
-
-function changeStatus(task, status) {
-  list[getTaskIndex(task)].status = status;
-}
 
 function addTask(task, priority = 'low') {
   list.push({
@@ -18,13 +11,20 @@ function addTask(task, priority = 'low') {
   });
 }
 
-function deleteTask(task) {
-  list.splice(getTaskIndex(task), 1);
+function changeStatus(ID, status) {
+  list.find(task => task.id === ID).status = status;
+}
+
+function deleteTask(ID) {
+  list.splice(list.findIndex(task => task.id === ID), 1);
 }
 
 function showList() {
   const sortedList = {};
-  STATUSES.forEach(status => sortedList[status] = list.filter(task => task.status === status).map(task => task.name));
+  STATUSES.forEach(status => sortedList[status] = []);
+  for (let task of list) {
+    sortedList[task.status].push(`id:${task.id} "${task.name}"`);
+  }
   for (let status in sortedList) {
     const isEmptyTaskList = !sortedList[status].length;
     if (isEmptyTaskList) sortedList[status].push('-');
