@@ -31,3 +31,7 @@ function showList() {
     console.log(`${status}:\n ${sortedList[status].join('\n ')}`);
   }
 }
+
+function showBy() {
+
+}
