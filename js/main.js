@@ -1,10 +1,10 @@
 const list = [];
 const STATUSES = ['To Do', 'In Progress', 'Done'];
-let ID = 1;
+let ID = 0;
 
 function addTask(task, priority = 'low') {
   list.push({
-    id: ID++,
+    id: ++ID,
     name: task,
     status: 'To Do',
     priority: priority,
@@ -31,3 +31,5 @@ function showList() {
     console.log(`${status}:\n ${sortedList[status].join('\n ')}`);
   }
 }
+
+export { list, ID, addTask, deleteTask, changeStatus };
