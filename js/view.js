@@ -1,65 +1,77 @@
-import { list, ID, addTask, deleteTask, changeStatus } from './main.js'
+import { list, ID, addTask, deleteTask, changeStatus, TODO, IN_PROGRESS, DONE, UI_ELEMENTS } from './main.js'
 
-const taskTemplate = document.createElement('div');
-taskTemplate.className = 'todo_list__task';
-taskTemplate.insertAdjacentHTML('afterbegin', `
+const taskHtmlElementTemplate = document.createElement('div');
+taskHtmlElementTemplate.className = 'todo_list__task';
+taskHtmlElementTemplate.insertAdjacentHTML('afterbegin', `
+<span class="circle display_none"></span>
 <input type="checkbox" class="todo_list__checkbox">
 <span class="todo_list__input"></span>
 <button class="todo_list__delete_button">
   <img class="todo_list__delete_button_icon" src="img/add-icon.svg">
 </button>`);
 
-const addTaskBtns = document.querySelectorAll('.todo_list__add_button');
-for (let button of addTaskBtns) {
-  button.addEventListener('click', addTaskHandler);
+const addNewTaskBtns = document.querySelectorAll('.todo_list__add_button');
+for (let addNewTaskBtn of addNewTaskBtns) {
+  addNewTaskBtn.addEventListener('click', addNewTaskBtnHandler);
 }
 
-function addTaskHandler(event) {
-  const whereAddTask = event.currentTarget.parentElement.parentElement;
-  const taskName = event.currentTarget.parentElement.firstElementChild.value;
-  const isNotEmptyField = (taskName.trim() !== '');
-  if (isNotEmptyField) {
-    event.currentTarget.parentElement.firstElementChild.value = null;
-    const priority = event.currentTarget.parentElement.parentElement.firstElementChild.textContent;
-    addTask(taskName, priority);
-    const newTask = taskTemplate.cloneNode('deep');
-    newTask.setAttribute('id', ID);
-    newTask.querySelector('.todo_list__input').textContent = taskName;
-    const deleteBtn = newTask.querySelector('.todo_list__delete_button');
-    deleteBtn.addEventListener('click', deleteTaskHandler);
-    const checkbox = newTask.querySelector('.todo_list__checkbox');
-    checkbox.addEventListener('click', checkboxTaskHandler);
-    whereAddTask.append(newTask);
-  }
-}
-
-function deleteTaskHandler() {
-  const taskID = +this.parentElement.id;
-  deleteTask(taskID);
-  this.parentElement.remove();
-}
-
-function checkboxTaskHandler() {
-  const taskID = +this.parentElement.id;
-  const task = this.parentElement;
-  if (task.classList.contains('done')) {
-    changeStatus(taskID, 'In Progress');
-    task.classList.remove('done');
-    task.parentElement.firstElementChild.nextElementSibling.after(task);
-  } else {
-    changeStatus(taskID, 'Done');
-    task.parentElement.querySelector('.done') ? task.parentElement.querySelector('.done').before(task) :
-      task.parentElement.append(task);
-    task.classList.add('done');
-  }
-}
-
-const inputs = document.querySelectorAll('.todo_list__input');
-for (let input of inputs) {
-  input.addEventListener('keydown', function (key) {
-    const isEnterBtn = (key.keyCode === 13);
-    if (isEnterBtn) {
-      addTaskHandler(event);
+function addNewTaskBtnHandler(event) {
+  const inputField = event.currentTarget.parentElement.firstElementChild;
+  const taskName = inputField.value;
+  const isNotEmptyInputField = (taskName.trim() !== '');
+  try {
+    if (!isNotEmptyInputField) {
+      throw new SyntaxError("Нельзя создать пустую задачу");
     }
-  });
+    inputField.value = '';
+    const whereAddTask = event.currentTarget.parentElement.parentElement;
+    const priority = whereAddTask.firstElementChild.textContent;
+    addTask(taskName, priority);
+    const newTaskHtmlElement = taskHtmlElementTemplate.cloneNode('deep');
+    newTaskHtmlElement.setAttribute('id', ID);
+    const taskNameTextElement = newTaskHtmlElement.querySelector('.todo_list__input');
+    taskNameTextElement.textContent = taskName;
+    const deleteBtnElement = newTaskHtmlElement.querySelector('.todo_list__delete_button');
+    deleteBtnElement.addEventListener('click', deleteTaskBtnHandler);
+    const checkboxElement = newTaskHtmlElement.querySelector('.todo_list__checkbox');
+    checkboxElement.addEventListener('click', checkboxTaskHandler);
+    whereAddTask.append(newTaskHtmlElement);
+  } catch (e) {
+    if (e.name == "SyntaxError") {
+      const body = document.body;
+      const shield = document.createElement('div');
+      shield.style.height = '100%';
+      shield.style.width = '100%';
+      shield.zIndex = '9000';
+      body.append(shield);
+      // alert(e.message);
+    } else {
+      throw e; // проброс (*)
+    }
+  }
 }
+
+function deleteTaskBtnHandler(event) {
+  const taskID = getTaskID(event);
+  deleteTask(taskID);
+  event.currentTarget.parentElement.remove();
+}
+
+function checkboxTaskHandler(event) {
+  event.currentTarget.previousElementSibling.classList.toggle('display_none');
+  const taskID = getTaskID(event);
+  const task = event.currentTarget.parentElement;
+  if (task.classList.contains(DONE)) {
+    changeStatus(taskID, IN_PROGRESS);
+    task.classList.remove(DONE);
+  } else {
+    changeStatus(taskID, DONE);
+    task.classList.add(DONE);
+  }
+}
+
+function getTaskID(event) {
+  return +event.currentTarget.parentElement.id;
+}
+
+export { taskHtmlElementTemplate, deleteTaskBtnHandler, checkboxTaskHandler }
